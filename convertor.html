@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="convertor.html">Convertor</a></li>
+                <li><a href="contact.html">ContactUs</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    <h1>Convertor</h1>
+    <label>Amount</label>
+    <input type="number" id="amount" placeholder="Enter amount">
+    <br><br>
+    <label>From</label>
+    <select id="from">
+        <option>INR</option>
+        <option>USD</option>
+        <option>EUR</option>
+    </select>
+    <br><br>
+    <label>To</label>
+    <select id="to">
+        <option>USD</option>
+        <option>INR</option>
+        <option>EUR</option>
+    </select>
+    <br><br>
+    <button onclick="convert()">Convert</button>
+    <h2 id="result"></h2>
+    
+<script>
+    function convert(){
+        var amount = document.getElementById("amount").value;
+        var from = document.getElementById("from").value;
+        var to = document.getElementById("to").value;
+        var result;
+
+        if(from === "INR" && to === "USD"){
+            result = amount * 0.013;
+        } else if(from === "INR" && to === "EUR"){
+            result = amount * 0.011;
+        } else if(from === "USD" && to === "INR"){
+            result = amount * 74.85;
+        } else if(from === "USD" && to === "EUR"){
+            result = amount * 0.85;
+        } else if(from === "EUR" && to === "INR"){
+            result = amount * 88.15;
+        } else if(from === "EUR" && to === "USD"){
+            result = amount * 1.18;
+        } else {
+            result = amount; // Same currency
+        }
+
+        document.getElementById("result").innerText = "Converted Amount: " + result.toFixed(2);
+    }
+    </script>
+</body>
+</html>
