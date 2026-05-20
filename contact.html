@@ -2,9 +2,22 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Contact Us</title>
+
+    <!-- EmailJS CDN -->
+
+    <script
+        type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
 
     <style>
 
@@ -129,7 +142,7 @@
 
         .map-container iframe{
             width:100%;
-            height:300px;
+            height:350px;
             border:0;
             border-radius:10px;
         }
@@ -163,10 +176,23 @@
         <nav class="navbar">
 
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="convertor.html">Convertor</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+
+                <li>
+                    <a href="convertor.html">Convertor</a>
+                </li>
+
+                <li>
+                    <a href="contact.html">Contact Us</a>
+                </li>
+
             </ul>
 
         </nav>
@@ -185,6 +211,7 @@
                 type="text"
                 id="FirstName"
                 placeholder="Enter First Name"
+                minlength="3"
                 required
             >
 
@@ -224,11 +251,25 @@
 
                 <select id="countryCode" required>
 
-                    <option value="+91">+91 (India)</option>
-                    <option value="+1">+1 (USA)</option>
-                    <option value="+44">+44 (UK)</option>
-                    <option value="+61">+61 (Australia)</option>
-                    <option value="+81">+81 (Japan)</option>
+                    <option value="+91">
+                        +91 (India)
+                    </option>
+
+                    <option value="+1">
+                        +1 (USA)
+                    </option>
+
+                    <option value="+44">
+                        +44 (UK)
+                    </option>
+
+                    <option value="+61">
+                        +61 (Australia)
+                    </option>
+
+                    <option value="+81">
+                        +81 (Japan)
+                    </option>
 
                 </select>
 
@@ -236,7 +277,11 @@
                     type="tel"
                     id="MobileNumber"
                     placeholder="Enter Mobile Number"
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                    minlength="10"
                     required
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 >
 
             </div>
@@ -251,6 +296,7 @@
                 id="Message"
                 rows="6"
                 placeholder="Enter Your Message"
+                minlength="10"
                 required
             ></textarea>
 
@@ -263,14 +309,16 @@
     </form>
 
     <div id="successMessage">
-        Thank you for contacting us!
+        Message Sent Successfully!
     </div>
+
+    <!-- Google Map -->
 
     <div class="map-container">
 
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.227084242119!2d76.95583237480661!3d11.017215489146195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba859b8f8f7f8b5%3A0x7b3bff1d2a2f5f0f!2sCoimbatore!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"
-            allowfullscreen=""
+            src="https://maps.google.com/maps?q=coimbatore&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            allowfullscreen
             loading="lazy">
         </iframe>
 
@@ -278,33 +326,179 @@
 
     <script>
 
-        const form = document.getElementById("contactForm");
+        // Initialize EmailJS
 
-        const successMessage = document.getElementById("successMessage");
+        (function(){
 
-        form.addEventListener("submit", function(event){
+            emailjs.init({
+                publicKey: "lsX9fs1gCG3lIZjOl",
+            });
 
-            event.preventDefault();
+        })();
 
-            const email = document.getElementById("Email").value;
+        const form =
+            document.getElementById("contactForm");
 
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const successMessage =
+            document.getElementById("successMessage");
 
-            if(!emailPattern.test(email)){
+        form.addEventListener(
 
-                alert("Please enter a valid email address");
+            "submit",
 
-                return;
+            function(event){
+
+                event.preventDefault();
+
+                const firstName =
+                    document.getElementById("FirstName")
+                    .value
+                    .trim();
+
+                const lastName =
+                    document.getElementById("LastName")
+                    .value
+                    .trim();
+
+                const email =
+                    document.getElementById("Email")
+                    .value
+                    .trim();
+
+                const countryCode =
+                    document.getElementById("countryCode")
+                    .value;
+
+                const mobile =
+                    document.getElementById("MobileNumber")
+                    .value
+                    .trim();
+
+                const message =
+                    document.getElementById("Message")
+                    .value
+                    .trim();
+
+                // Email Validation
+
+                const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if(!emailPattern.test(email)){
+
+                    alert(
+                        "Please enter a valid email address"
+                    );
+
+                    return;
+
+                }
+
+                // Mobile Validation
+
+                const mobilePattern =
+                    /^[0-9]{10}$/;
+
+                if(!mobilePattern.test(mobile)){
+
+                    alert(
+                        "Mobile number must contain exactly 10 digits"
+                    );
+
+                    return;
+
+                }
+
+                // First Name Validation
+
+                if(firstName.length < 3){
+
+                    alert(
+                        "First name should contain at least 3 letters"
+                    );
+
+                    return;
+
+                }
+
+                // Message Validation
+
+                if(message.length < 10){
+
+                    alert(
+                        "Message should contain at least 10 characters"
+                    );
+
+                    return;
+
+                }
+
+                // Email Parameters
+
+                const templateParams = {
+
+                    first_name: firstName,
+
+                    last_name: lastName,
+
+                    email: email,
+
+                    mobile:
+                        countryCode + " " + mobile,
+
+                    message: message
+
+                };
+
+                // Send Email
+
+                emailjs.send(
+
+                    "service_q2r12sd",
+
+                    "template_12vig99",
+
+                    templateParams
+
+                )
+
+                .then(function(response){
+
+                    successMessage.style.display =
+                        "block";
+
+                    successMessage.innerHTML =
+                        "Message Sent Successfully!";
+
+                    form.reset();
+
+                    console.log(
+                        "SUCCESS!",
+                        response.status,
+                        response.text
+                    );
+
+                })
+
+                .catch(function(error){
+
+                    alert(
+                        "Failed to send message"
+                    );
+
+                    console.log(
+                        "ERROR:",
+                        error
+                    );
+
+                });
 
             }
 
-            successMessage.style.display = "block";
-
-            form.reset();
-
-        });
+        );
 
     </script>
 
 </body>
+
 </html>
