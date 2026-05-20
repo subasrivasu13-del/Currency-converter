@@ -48,17 +48,17 @@
         var result;
 
         if(from === "INR" && to === "USD"){
-            result = amount * 0.013;
+            result = amount * 0.010;
         } else if(from === "INR" && to === "EUR"){
-            result = amount * 0.011;
+            result = amount * 0.0089;
         } else if(from === "USD" && to === "INR"){
-            result = amount * 74.85;
+            result = amount *96.42;
         } else if(from === "USD" && to === "EUR"){
-            result = amount * 0.85;
+            result = amount * 0.86;
         } else if(from === "EUR" && to === "INR"){
-            result = amount * 88.15;
+            result = amount * 112.19;
         } else if(from === "EUR" && to === "USD"){
-            result = amount * 1.18;
+            result = amount * 1.16;
         } else {
             result = amount; // Same currency
         }
